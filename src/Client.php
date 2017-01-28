@@ -42,7 +42,7 @@ class Client
     private $formBaseUrl    = 'https://auth.robokassa.ru/Merchant/PaymentForm/Form';
     private $paymentBaseUrl = 'https://auth.robokassa.ru/Merchant/Index.aspx';
     private $serviceBaseUrl = 'https://auth.robokassa.ru/Merchant/WebService/Service.asmx/';
-//    private $recurringBaseUrl = 'https://auth.robokassa.ru/Merchant/Recurring';
+    private $recurringBaseUrl = 'https://auth.robokassa.ru/Merchant/Recurring';
 
     /**
      * Client constructor.

@@ -172,6 +172,10 @@ class Payment
      */
     private $paymentMethodDescription;
     /**
+     * @var bool $recurring
+     */
+    private $recurring = false;
+    /**
      * @var bool
      */
     private $valid = false;
@@ -255,13 +259,14 @@ class Payment
             $params['OutSum'] = $this->getShopSum();
         }
 
-        if ($this->id) $params['InvId'] = $this->id;
+        if ($this->id)                 $params['InvId']             = $this->id;
         if ($this->culture)            $params['Culture']           = $this->culture;
         if ($this->encoding)           $params['Encoding']          = $this->encoding;
         if ($this->email)              $params['Email']             = $this->email;
         if ($this->expirationDate)     $params['ExpirationDate']    = $this->expirationDate->format('c');
         if ($this->currency)           $params['OutSumCurrency']    = $this->currency;
         if ($this->paymentMethod)      $params['IncCurrLabel']      = $this->paymentMethod;
+        if ($this->recurring)          $params['Recurring']         = true;
         if ($this->auth->isTest())     $params['isTest']            = 1;
         if ($this->customParams)       $params += $this->getCustomParamsArray();
 
@@ -653,6 +658,17 @@ class Payment
     public function getPaymentMethodDescription()
     {
         return $this->paymentMethodDescription;
+    }
+
+    /**
+     * @param $recurring
+     * @return $this
+     */
+    public function setRecurring($recurring)
+    {
+        $this->recurring = (bool)$recurring;
+
+        return $this;
     }
 
     /**
