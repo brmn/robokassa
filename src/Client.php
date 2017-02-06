@@ -124,6 +124,14 @@ class Client
     }
 
     /**
+     * @return string
+     */
+    public function getrecurringBaseUrl()
+    {
+        return $this->recurringBaseUrl;
+    }
+
+    /**
      * Set any property which has setter method from array.
      *
      * @param array $data
@@ -366,6 +374,35 @@ class Client
             'Currency'                 => (string)$sxe->Info->OutCurrLabel,
             'ShopSum'                  => (float)$sxe->Info->OutSum,
         ];
+    }
+
+    public function makeRecurringPayment($invoiceId, $eMail, $previousInvoiceID)
+    {
+        $signature = $this->auth->getSignatureHash('{ml}:{ii}:{vp}', [
+            'ml' => $this->auth->getMerchantLogin(),
+            'ii' => $invoiceId,
+            'vp' => $this->auth->getValidationPassword(),
+        ]);
+
+        $data = [
+            'MerchantLogin' => $this->auth->getMerchantLogin(),
+            'InvoiceID' => $invoiceId,
+            'PreviousInvoiceID' => $previousInvoiceID,
+            'EMail' => $eMail,
+            'Signature' => $signature
+        ];
+
+        if ($this->auth->isTest()) {
+            $data['isTest'] = 1;
+        }
+
+        $response = $this->sendRequest(
+            $this->recurringBaseUrl,
+            $data,
+            $this->requestMethod
+        );
+
+        return $response;
     }
 
     private function parseError(\SimpleXMLElement $sxe)

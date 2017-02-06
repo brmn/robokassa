@@ -266,7 +266,7 @@ class Payment
         if ($this->expirationDate)     $params['ExpirationDate']    = $this->expirationDate->format('c');
         if ($this->currency)           $params['OutSumCurrency']    = $this->currency;
         if ($this->paymentMethod)      $params['IncCurrLabel']      = $this->paymentMethod;
-        if ($this->recurring)          $params['Recurring']         = true;
+        if ($this->recurring)          $params['Recurring']         = 1;
         if ($this->auth->isTest())     $params['isTest']            = 1;
         if ($this->customParams)       $params += $this->getCustomParamsArray();
 
